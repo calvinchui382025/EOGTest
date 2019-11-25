@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../Features/MetricsGraph/reducer';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { Provider, createClient, useQuery } from 'urql';
 //--------------------------------------------------------------------
-const useStyles = makeStyles({
-  input: {
-    margin: '30',
-  }
-});
-//--------------------------------------------------------------------
-const client = createClient({
-  url: 'https://react.eogresources.com/graphql',
-});
-//--------------------------------------------------------------------
+//-------------------------------------------------------------------- selections
 const selections = [
   { title: 'injValveOpen' },
   { title: 'oilTemp' },
@@ -29,7 +19,6 @@ const selections = [
 export type selection = { title: string }
 
 const Metrics = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   let [selected, setSelected] = useState([''])
 
@@ -54,6 +43,7 @@ const Metrics = () => {
         }
       }
     }`
+  //-------------------------------------------------------------------
   const [result] = useQuery({
     query,
     variables: {
@@ -63,8 +53,14 @@ const Metrics = () => {
   const { fetching, data, error } = result;
 
   useEffect(() => {
+    if(error) {
+      dispatch(actions.metricsApiErrorAction({error: error.message}));
+      return;
+    }
+    if(!data) return;
+
     console.log(data);
-  }, [data])
+  }, [dispatch, data, error])
   //--------------------------------------------------------------------
   return (
     <div
@@ -74,7 +70,6 @@ const Metrics = () => {
       }}
     >
       <Autocomplete
-        className={classes.input}
         multiple
         options={selections}
         getOptionLabel={option => option.title}
@@ -95,6 +90,9 @@ const Metrics = () => {
   )
 }
 //--------------------------------------------------------------------
+const client = createClient({
+  url: 'https://react.eogresources.com/graphql',
+});
 export default () => {
   return (
     <Provider value={client}>
