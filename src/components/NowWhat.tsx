@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import Card from '@material-ui/core/Card';
 // import CardHeader from './CardHeader';
 // import Typography from '@material-ui/core/Typography';
@@ -11,8 +11,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-
-
+import { Provider, createClient, useQuery } from 'urql';
+//--------------------------------------------------------------------
 const useStyles = makeStyles({
   // card: {
   //   margin: '5% 25%',
@@ -21,7 +21,14 @@ const useStyles = makeStyles({
     margin: '30',
   }
 });
+//--------------------------------------------------------------------
+const client = createClient({
+  url: 'https://react.eogresources.com/graphql',
+});
+const query = `
 
+`
+//--------------------------------------------------------------------
 const selections = [
   { title: 'injValveOpen' },
   { title: 'oilTemp' },
@@ -29,12 +36,17 @@ const selections = [
   { title: 'flareTemp' },
   { title: 'casingPressure' },
   { title: 'waterTemp' },
-
-
 ]
+//--------------------------------------------------------------------
 
-export default () => {
+
+const Metrics = () => {
   const classes = useStyles();
+
+  useEffect(() => {
+    console.log('Tester');
+  },[])
+
   return (
     <div
       style={{ width: 500 }}
@@ -56,6 +68,14 @@ export default () => {
         )}
       />
     </div>
+  )
+}
+//--------------------------------------------------------------------
+export default () => {
+  return (
+    <Provider value={client}>
+      <Metrics />
+    </Provider>
   );
 };
 
