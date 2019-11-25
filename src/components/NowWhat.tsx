@@ -1,12 +1,6 @@
-import React, { useEffect } from 'react';
-// import Card from '@material-ui/core/Card';
-// import CardHeader from './CardHeader';
-// import Typography from '@material-ui/core/Typography';
-// import CardContent from '@material-ui/core/CardContent';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import Avatar from './Avatar';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { actions } from '../Features/MetricsGraph/reducer';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -22,26 +16,6 @@ const useStyles = makeStyles({
 const client = createClient({
   url: 'https://react.eogresources.com/graphql',
 });
-// const query =
-//   `
-//   query Test{
-//     getMultipleMeasurements(input: 
-//       [
-//         {
-//           metricName:"oilTemp"
-//         }
-//       ]
-//     ){
-//       metric
-//       measurements{
-//         metric
-//         at
-//         value
-//         unit
-//       }
-//     }
-//   }
-// `
 //--------------------------------------------------------------------
 const selections = [
   { title: 'injValveOpen' },
@@ -51,41 +25,52 @@ const selections = [
   { title: 'casingPressure' },
   { title: 'waterTemp' },
 ]
-
-let selected = []
 //--------------------------------------------------------------------
-
-const handleChangeSelected = (_event: React.ChangeEvent<{}>, values: any[]) => {
-  selected = values
-  console.log(selected);
-}
+export type selection = { title: string }
 
 const Metrics = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  let [selected, setSelected] = useState([''])
+
+  const handleChangeSelected = (_event: React.ChangeEvent<{}>, values: selection[]) => {
+    setSelected(selected = values.map((value) => value.title))
+    dispatch(actions.updateSelection(selected))
+  }
   //--------------------------------------------------------------------
+  const query =
+    `query Test{
+      getMultipleMeasurements(input: 
+        [
+          ${selected.map((item) => '{metricName:"' + item + '"}')}
+        ]
+      ){
+        metric
+        measurements{
+          metric
+          at
+          value
+          unit
+        }
+      }
+    }`
+  const [result] = useQuery({
+    query,
+    variables: {
+      selected
+    }
+  })
+  const { fetching, data, error } = result;
 
-  // let selected = [
-  //   "oilTemp",
-  //   "casingPressure"
-  // ]
-  // const [result] = useQuery({
-  //   query,
-  //   variables: {
-  //     selected
-  //   }
-  // })
-  // const { fetching, data, error } = result;
-
-  // useEffect(() => {
-  //   console.log('Testing');
-  //   console.log(data);
-  // }, [data])
+  useEffect(() => {
+    // console.log(data);
+  }, [data])
   //--------------------------------------------------------------------
   return (
     <div
       style={{
         width: 1000,
-        marginTop: 50
+        marginTop: 25
       }}
     >
       <Autocomplete
