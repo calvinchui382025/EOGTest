@@ -35,7 +35,7 @@ const Metrics = () => {
 
   const handleChangeSelected = (_event: React.ChangeEvent<{}>, values: selection[]) => {
     setSelected(selected = values.map((value) => value.title))
-    dispatch(actions.updateSelection(selected))
+    dispatch(actions.updateSelected(selected))
   }
   //--------------------------------------------------------------------
   const query =
@@ -63,7 +63,7 @@ const Metrics = () => {
   const { fetching, data, error } = result;
 
   useEffect(() => {
-    // console.log(data);
+    console.log(data);
   }, [data])
   //--------------------------------------------------------------------
   return (
@@ -87,11 +87,9 @@ const Metrics = () => {
             fullWidth
           />
         )}
-
         onChange={(event, values) => {
           handleChangeSelected(event, values);
         }}
-
       />
     </div>
   )
