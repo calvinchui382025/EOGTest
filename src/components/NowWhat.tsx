@@ -22,25 +22,26 @@ const useStyles = makeStyles({
 const client = createClient({
   url: 'https://react.eogresources.com/graphql',
 });
-const query = `
-query Test{
-	getMultipleMeasurements(input: 
-    [
-      {
-        metricName:"oilTemp"
-      }
-    ]
-  ){
-    metric
-    measurements{
-      metric
-      at
-      value
-      unit
-    }
-  }
-}
-`
+// const query =
+//   `
+//   query Test{
+//     getMultipleMeasurements(input: 
+//       [
+//         {
+//           metricName:"oilTemp"
+//         }
+//       ]
+//     ){
+//       metric
+//       measurements{
+//         metric
+//         at
+//         value
+//         unit
+//       }
+//     }
+//   }
+// `
 //--------------------------------------------------------------------
 const selections = [
   { title: 'injValveOpen' },
@@ -50,33 +51,49 @@ const selections = [
   { title: 'casingPressure' },
   { title: 'waterTemp' },
 ]
+
+let selected = []
 //--------------------------------------------------------------------
 
+const handleChangeSelected = (_event: React.ChangeEvent<{}>, values: any[]) => {
+  selected = values
+  console.log(selected);
+}
 
 const Metrics = () => {
   const classes = useStyles();
+  //--------------------------------------------------------------------
 
-  const [result] = useQuery({
-    query,
-  })
-  const { fetching, data, error } = result;
+  // let selected = [
+  //   "oilTemp",
+  //   "casingPressure"
+  // ]
+  // const [result] = useQuery({
+  //   query,
+  //   variables: {
+  //     selected
+  //   }
+  // })
+  // const { fetching, data, error } = result;
 
-  useEffect(() => {
-    console.log('Testing');
-    console.log(data);
-  }, [data])
-
+  // useEffect(() => {
+  //   console.log('Testing');
+  //   console.log(data);
+  // }, [data])
+  //--------------------------------------------------------------------
   return (
     <div
-      style={{ width: 500 }}
+      style={{
+        width: 1000,
+        marginTop: 50
+      }}
     >
       <Autocomplete
         className={classes.input}
         multiple
-        id="combo-box"
         options={selections}
         getOptionLabel={option => option.title}
-        style={{ width: 300 }}
+        style={{ width: 1000 }}
         renderInput={params => (
           <TextField
             {...params}
@@ -85,6 +102,11 @@ const Metrics = () => {
             fullWidth
           />
         )}
+
+        onChange={(event, values) => {
+          handleChangeSelected(event, values);
+        }}
+
       />
     </div>
   )
