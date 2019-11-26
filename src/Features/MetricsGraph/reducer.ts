@@ -9,7 +9,7 @@ export type MetricsSelection = {
 }
 
 const initialState = {
-  selected: [''],
+  selected: [],
 }
 
 const slice = createSlice({
@@ -18,7 +18,7 @@ const slice = createSlice({
   reducers: {
     updateSelected: (state, action) => {
       state.selected = action.payload
-      console.log(state.selected);
+      // console.log(state.selected);
     },
     metricsApiErrorAction: (state, action: PayloadAction<ApiErrorAction>) => state,
   }
