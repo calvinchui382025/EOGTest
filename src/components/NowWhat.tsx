@@ -6,7 +6,6 @@ import { Provider, createClient, useQuery } from 'urql';
 import { IState } from '../store';
 import MetricsGraph from './../Features/MetricsGraph/MetricsGraph';
 import MetricsInput from './../Features/MetricsGraph/MetricsInput';
-
 //-------------------------------------------------------------------- 
 const getSelected = (state: IState) => {
   const { selected } = state.metric
@@ -17,8 +16,6 @@ const thirtyMinsAgo = Date.now() - 1800000;
 const Metrics = () => {
   const dispatch = useDispatch();
   const selected = useSelector(getSelected);
-  //--------------------------------------------------------------------
-
   //--------------------------------------------------------------------
   const query =
     `query getLastThirty{

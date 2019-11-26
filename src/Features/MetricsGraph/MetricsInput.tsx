@@ -7,27 +7,21 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { IState, selection } from '../../store';
 //--------------------------------------------------------------------
-
-//--------------------------------------------------------------------
 const useStyles = makeStyles({
   input: {
     margin: 25,
     width: 600,
-    // flexWrap: "nowrap"
-    // height: 500,
-    // flexWrap: false
   },
   inputRoot: {
     flexWrap:"nowrap"
   }
 })
-
 //--------------------------------------------------------------------
 const getSelections = (state: IState) => {
   const { selections } = state.metric
   return selections;
 }
-
+//--------------------------------------------------------------------
 const MetricsInput = () => {
   const classes = useStyles();
   const dispatch = useDispatch();

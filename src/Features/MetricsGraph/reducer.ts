@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit'
-
+//--------------------------------------------------------------------
 export type ApiErrorAction = {
   error: string;
 }
-
+//--------------------------------------------------------------------
 export type MetricsSelection = {
   title: string,
   color: string,
 }
-
+//--------------------------------------------------------------------
 const initialState = {
   selections: [
     { title: 'injValveOpen', color: '#56ff00' },
@@ -21,7 +21,7 @@ const initialState = {
   selected: [] as MetricsSelection[],
   graphData: [],
 }
-
+//--------------------------------------------------------------------
 const slice = createSlice({
   name: 'selected',
   initialState,
@@ -35,6 +35,6 @@ const slice = createSlice({
     metricsApiErrorAction: (state, action: PayloadAction<ApiErrorAction>) => state,
   }
 })
-
+//--------------------------------------------------------------------
 export const reducer = slice.reducer;
 export const actions = slice.actions;
