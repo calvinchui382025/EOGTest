@@ -39,3 +39,13 @@ Not all of our projects use typescript, but some do. If you love it, flaunt it.
 
 Creativity
 Design choices? Something super cool? A++
+
+//----------------------------------------------------------------------------------------------------------
+To-Do
+
+Display box of realtime data
+Display data when mouseover
+Display time stamps along X-axis
+
+Figure out why graph is pulsing
+'Memoize' graph builder?

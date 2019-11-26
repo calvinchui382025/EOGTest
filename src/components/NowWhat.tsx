@@ -148,7 +148,7 @@ const Metrics = () => {
               <Line type="monotone" dataKey={item} stroke={lineColor[item]} />
             ))
           }
-          <CartesianGrid stroke="#ccc" />
+          {/* <CartesianGrid stroke="#ccc" /> */}
           <XAxis dataKey="name" />
           <YAxis />
         </LineChart>
