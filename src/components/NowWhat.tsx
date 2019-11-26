@@ -3,12 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../Features/MetricsGraph/reducer';
 import { Provider, createClient, useQuery } from 'urql';
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import moment from 'moment';
 import { IState, selection } from '../store';
+import MetricsGraph from './../Features/MetricsGraph/MetricsGraph';
 //-------------------------------------------------------------------- custom styles
 const useStyles = makeStyles({
   main: {
@@ -28,17 +27,12 @@ const getSelected = (state: IState) => {
   const { selected } = state.metric
   return selected;
 }
-const getGraphData = (state:IState) => {
-  const { graphData } = state.metric
-  return graphData;
-}
 //--------------------------------------------------------------------
 const Metrics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const selections = useSelector(getSelections);
   const selected = useSelector(getSelected);
-  const graphData = useSelector(getGraphData);
   //--------------------------------------------------------------------
   const handleChangeSelected = (_event: React.ChangeEvent<{}>, values: selection[]) => {
     dispatch(actions.updateSelected(values))
@@ -122,27 +116,7 @@ const Metrics = () => {
         }}
       />
       {selected.length > 0 ?
-        <LineChart
-          width={800}
-          height={400}
-          data={graphData}
-        >
-          <Tooltip />
-          {
-            selected.map((item: selection) => (
-              <Line type="monotone" dataKey={item.title} stroke={item.color} />
-            ))
-          }
-          <XAxis
-            dataKey="name"
-            domain={['auto', 'auto']}
-            interval={240}
-            tickFormatter={(tick) => moment(tick).format('HH:mm')}
-            type='number'
-            scale='time'
-          />
-          <YAxis />
-        </LineChart>
+        <MetricsGraph />
         : null}
     </div>
   )
