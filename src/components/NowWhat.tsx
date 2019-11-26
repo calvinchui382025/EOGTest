@@ -1,42 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 //-------------------------------------------------------------------- my imports
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../Features/MetricsGraph/reducer';
 import { Provider, createClient, useQuery } from 'urql';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { IState, selection } from '../store';
+import { IState } from '../store';
 import MetricsGraph from './../Features/MetricsGraph/MetricsGraph';
-//-------------------------------------------------------------------- custom styles
-const useStyles = makeStyles({
-  main: {
-    // margin: 25
-  },
-  input: {
-    width: 800,
-    margin: 25
-  },
-})
-//-------------------------------------------------------------------- selections
-const getSelections = (state: IState) => {
-  const { selections } = state.metric
-  return selections;
-}
+import MetricsInput from './../Features/MetricsGraph/MetricsInput';
+
+//-------------------------------------------------------------------- 
 const getSelected = (state: IState) => {
   const { selected } = state.metric
   return selected;
 }
 //--------------------------------------------------------------------
 const Metrics = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
-  const selections = useSelector(getSelections);
   const selected = useSelector(getSelected);
-  //--------------------------------------------------------------------
-  const handleChangeSelected = (_event: React.ChangeEvent<{}>, values: selection[]) => {
-    dispatch(actions.updateSelected(values))
-  }
   //--------------------------------------------------------------------
   const thirtyMinsAgo = Date.now() - 1800000;
   //--------------------------------------------------------------------
@@ -94,30 +73,12 @@ const Metrics = () => {
       dispatch(actions.setGraphData(newGraphData as any))
     }
     //--------------------------------------------------------------------
-  }, [dispatch, data, error])
+  }, [dispatch, data, selected.length, error])
   //--------------------------------------------------------------------
   return (
-    <div className={classes.main}>
-      <Autocomplete
-        className={classes.input}
-        multiple
-        options={selections}
-        getOptionLabel={option => option.title}
-        renderInput={params => (
-          <TextField
-            {...params}
-            label="Metrics"
-            variant="outlined"
-            fullWidth
-          />
-        )}
-        onChange={(event, values) => {
-          handleChangeSelected(event, values);
-        }}
-      />
-      {selected.length > 0 ?
-        <MetricsGraph />
-        : null}
+    <div>
+      <MetricsInput />
+      {selected.length > 0 ? <MetricsGraph /> : null}
     </div>
   )
 }
