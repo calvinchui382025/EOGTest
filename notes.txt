@@ -16,10 +16,10 @@ Spending the time to subscribe to updates, instead of polling is 100
 
 //----------------------------------------------------------------------------------------------------------
 To-Do
-
+        Update tooltip to render time correctly - http://recharts.org/en-US/examples/CustomContentOfTooltip
         Display box of realtime data
 Done -- Display data when mouseover
-        Display time stamps along X-axis
+Semi -- Display time stamps along X-axis
 
         Figure out why graph is pulsing
         'Memoize' graph builder?
