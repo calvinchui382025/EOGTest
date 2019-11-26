@@ -24,28 +24,20 @@ const getSelections = (state: IState) => {
   const { selections } = state.metric
   return selections
 }
-
-const lineColor: { [key: string]: string } = {
-  'injValveOpen': '#56ff00',
-  'oilTemp': '#ff8d00',
-  'tubingPressure': '#00f9ff',
-  'flareTemp': '#E14343',
-  'casingPressure': '#fd00ff',
-  'waterTemp': '#0004FF',
-}
 //--------------------------------------------------------------------
-export type selection = { title: string }
+export type selection = { title: string, color:string }
 //--------------------------------------------------------------------
 
 const Metrics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const selections = useSelector(getSelections);
-  let [selected, setSelected] = useState([] as string[])
+  let [selected, setSelected] = useState([] as {title:string, color:string}[])
   let [graphData, setGraphData] = useState([])
   //--------------------------------------------------------------------
   const handleChangeSelected = (_event: React.ChangeEvent<{}>, values: selection[]) => {
-    setSelected(selected = values.map((value) => value.title))
+    // setSelected(selected = values.map((value) => value.title))
+    setSelected(selected = values)
     dispatch(actions.updateSelected(selected))
   }
   //--------------------------------------------------------------------
@@ -57,7 +49,7 @@ const Metrics = () => {
         [
           ${selected.map(item => (
       '{' +
-      'metricName:"' + item + '"' +
+      'metricName:"' + item.title + '"' +
       'after:' + thirtyMinsAgo.toString() +
       '}'
     )
@@ -88,7 +80,7 @@ const Metrics = () => {
     if (!data) return;
     //--------------------------------------------------------------------
     const { getMultipleMeasurements } = data
-    if (selected !== []) {
+    if (selected.length !== 0) {
       let newGraphData: any[] | never[] | { [x: string]: any; }[] = [];
       getMultipleMeasurements.forEach((measurement: any, i: number) => {
         measurement.measurements.forEach((item: { [x: string]: any; }, j: number) => {
@@ -134,8 +126,8 @@ const Metrics = () => {
         >
           <Tooltip />
           {
-            selected.map((item: string) => (
-              <Line type="monotone" dataKey={item} stroke={lineColor[item]} />
+            selected.map((item: selection) => (
+              <Line type="monotone" dataKey={item.title} stroke={item.color} />
             ))
           }
           <XAxis
