@@ -19,6 +19,7 @@ const initialState = {
     { title: 'waterTemp', color: '#0004FF' },
   ],
   selected: [] as MetricsSelection[],
+  graphData: [],
 }
 
 const slice = createSlice({
@@ -27,7 +28,9 @@ const slice = createSlice({
   reducers: {
     updateSelected: (state, action) => {
       state.selected = action.payload
-      // console.log(state.selected);
+    },
+    setGraphData: (state, action) => {
+      state.graphData = action.payload
     },
     metricsApiErrorAction: (state, action: PayloadAction<ApiErrorAction>) => state,
   }

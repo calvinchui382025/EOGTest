@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import moment from 'moment';
-import { IState } from '../store';
+import { IState, selection } from '../store';
 //-------------------------------------------------------------------- custom styles
 const useStyles = makeStyles({
   main: {
@@ -19,16 +19,18 @@ const useStyles = makeStyles({
     margin: 25
   },
 })
-//-------------------------------------------------------------------- custom types
-export type selection = { title: string, color:string }
 //-------------------------------------------------------------------- selections
 const getSelections = (state: IState) => {
   const { selections } = state.metric
-  return selections
+  return selections;
 }
 const getSelected = (state: IState) => {
   const { selected } = state.metric
-  return selected
+  return selected;
+}
+const getGraphData = (state:IState) => {
+  const { graphData } = state.metric
+  return graphData;
 }
 //--------------------------------------------------------------------
 const Metrics = () => {
@@ -36,7 +38,7 @@ const Metrics = () => {
   const dispatch = useDispatch();
   const selections = useSelector(getSelections);
   const selected = useSelector(getSelected);
-  let [graphData, setGraphData] = useState([])
+  const graphData = useSelector(getGraphData);
   //--------------------------------------------------------------------
   const handleChangeSelected = (_event: React.ChangeEvent<{}>, values: selection[]) => {
     dispatch(actions.updateSelected(values))
@@ -82,7 +84,7 @@ const Metrics = () => {
     //--------------------------------------------------------------------
     const { getMultipleMeasurements } = data
     if (selected.length !== 0) {
-      let newGraphData: any[] | never[] | { [x: string]: any; }[] = [];
+      let newGraphData: never[] | never[] | { [x: string]: any; }[] = [];
       getMultipleMeasurements.forEach((measurement: any, i: number) => {
         measurement.measurements.forEach((item: { [x: string]: any; }, j: number) => {
           if (i === 0) {
@@ -95,7 +97,7 @@ const Metrics = () => {
           }
         })
       })
-      setGraphData(newGraphData as any)
+      dispatch(actions.setGraphData(newGraphData as any))
     }
     //--------------------------------------------------------------------
   }, [dispatch, data, error])
