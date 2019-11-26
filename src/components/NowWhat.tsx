@@ -12,15 +12,16 @@ const getSelected = (state: IState) => {
   const { selected } = state.metric
   return selected;
 }
+const thirtyMinsAgo = Date.now() - 1800000;
 //--------------------------------------------------------------------
 const Metrics = () => {
   const dispatch = useDispatch();
   const selected = useSelector(getSelected);
   //--------------------------------------------------------------------
-  const thirtyMinsAgo = Date.now() - 1800000;
+
   //--------------------------------------------------------------------
   const query =
-    `query Test{
+    `query getLastThirty{
       getMultipleMeasurements(input: 
         [
           ${selected.map(item => (

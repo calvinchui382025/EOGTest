@@ -1,17 +1,11 @@
 Metric List and Values
 You can select metrics, it loads from the API. When selected, the values auto update
 
-Use React Hooks
-Shows you stay current.
-
 Runs free of console warnings
 If React is warning you of something, you should fix it.
 
 Handling Errors
 Reconnect websockets, toast an error if received.
-
-Use Redux
-Store your values in redux.
 
 Use Prettier
 We use prettier to auto format code and so should you :)
@@ -19,11 +13,6 @@ We use prettier to auto format code and so should you :)
 GraphQL Subscriptions
 Spending the time to subscribe to updates, instead of polling is 100
 
-TypeScript
-Not all of our projects use typescript, but some do. If you love it, flaunt it.
-
-Creativity
-Design choices? Something super cool? A++
 
 //----------------------------------------------------------------------------------------------------------
 To-Do

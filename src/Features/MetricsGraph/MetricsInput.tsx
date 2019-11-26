@@ -12,8 +12,14 @@ import { IState, selection } from '../../store';
 const useStyles = makeStyles({
   input: {
     margin: 25,
-    width: 800,
+    width: 600,
+    // flexWrap: "nowrap"
+    // height: 500,
+    // flexWrap: false
   },
+  inputRoot: {
+    flexWrap:"nowrap"
+  }
 })
 
 //--------------------------------------------------------------------
@@ -21,8 +27,6 @@ const getSelections = (state: IState) => {
   const { selections } = state.metric
   return selections;
 }
-
-
 
 const MetricsInput = () => {
   const classes = useStyles();
@@ -34,6 +38,9 @@ const MetricsInput = () => {
   return (
     <Autocomplete
       className={classes.input}
+      classes={{
+        inputRoot: classes.inputRoot
+      }}
       multiple
       options={selections}
       getOptionLabel={option => option.title}
