@@ -1,21 +1,6 @@
-This is a creative assignment, with no specific right or wrong answer. How will we grade it? Here's what we'll look for.
-
 Metric List and Values
 You can select metrics, it loads from the API. When selected, the values auto update
 
-Charting behaves like you would expect
-Good y axis scaling, has an info hover box with values. Looks nice.
-
-Good Git/GitHub Practices
-Don't file Upload with 1 commit. Do have good commit messages.
-
-You use and run our getting started code
-Some peope don't. ¯\_(ツ)_/¯
-
-Coding Standards
-Use AirBNB style with ES6/7/2015 features
-
-Bonus Points
 Use React Hooks
 Shows you stay current.
 

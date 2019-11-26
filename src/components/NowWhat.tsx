@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from 'react';
+//--------------------------------------------------------------------
 import { useDispatch } from 'react-redux';
 import { actions } from '../Features/MetricsGraph/reducer';
+import { Provider, createClient, useQuery } from 'urql';
+import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { Provider, createClient, useQuery } from 'urql';
 //--------------------------------------------------------------------
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+const useStyles = makeStyles({
+  main: {
+    margin: 25
+  },
+  input: {
+    width: 800
+  },
+})
 //-------------------------------------------------------------------- selections
 const selections = [
   { title: 'injValveOpen', color: '#56ff00' },
@@ -15,7 +25,6 @@ const selections = [
   { title: 'casingPressure', color: '#fd00ff' },
   { title: 'waterTemp', color: '#0004FF' },
 ]
-
 const lineColor: { [key: string]: string } = {
   'injValveOpen': '#56ff00',
   'oilTemp': '#ff8d00',
@@ -28,6 +37,7 @@ const lineColor: { [key: string]: string } = {
 export type selection = { title: string }
 //--------------------------------------------------------------------
 const Metrics = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   let [selected, setSelected] = useState([] as string[])
   let [graphData, setGraphData] = useState([])
@@ -37,9 +47,7 @@ const Metrics = () => {
     dispatch(actions.updateSelected(selected))
   }
   //--------------------------------------------------------------------
-  // const currentTime = Date.now();
   const thirtyMinsAgo = Date.now() - 1800000;
-  // const thirtyMinsAgo = 1574738324866;
   //--------------------------------------------------------------------
   const query =
     `query Test{
@@ -80,13 +88,8 @@ const Metrics = () => {
     const { getMultipleMeasurements } = data
     if (selected !== []) {
       let newGraphData: any[] | never[] | { [x: string]: any; }[] = [];
-      // console.log(getMultipleMeasurements);
-      getMultipleMeasurements.forEach((measurement: any, i: number) => {  //looping through oilTemp/Pressure/etc.
-        // console.log(measurement)
-        // console.log(measurement.metric)
-        // console.log(measurement.measurements)
-
-        measurement.measurements.forEach((item: { [x: string]: any; }, j: number) => { //looping through individual measurements within oilTemp/Pressure/etc.
+      getMultipleMeasurements.forEach((measurement: any, i: number) => {
+        measurement.measurements.forEach((item: { [x: string]: any; }, j: number) => {
           if (i === 0) {
             let newDataPoint = {} as any;
             newDataPoint['name'] = item['at']
@@ -104,17 +107,12 @@ const Metrics = () => {
   }, [dispatch, data, error])
   //--------------------------------------------------------------------
   return (
-    <div
-      style={{
-        width: 1000,
-        margin: 25
-      }}
-    >
+    <div className={classes.main}>
       <Autocomplete
+        className={classes.input}
         multiple
         options={selections}
         getOptionLabel={option => option.title}
-        style={{ width: 1000 }}
         renderInput={params => (
           <TextField
             {...params}
@@ -129,8 +127,8 @@ const Metrics = () => {
       />
       {selected.length > 0 ?
         <LineChart
-          width={1000}
-          height={600}
+          width={800}
+          height={400}
           data={graphData}
         >
           <Tooltip />
@@ -141,9 +139,9 @@ const Metrics = () => {
           }
           <XAxis
             dataKey="name"
-            // tickFormatter = {(tick) => moment(tick).format('HH:mm')}
-            // type='number'
-            // scale='time'
+          // tickFormatter = {(tick) => moment(tick).format('HH:mm')}
+          // type='number'
+          // scale='time'
           />
           <YAxis />
         </LineChart>
