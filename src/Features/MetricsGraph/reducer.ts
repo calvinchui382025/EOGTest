@@ -18,7 +18,7 @@ const initialState = {
     { title: 'casingPressure', color: '#fd00ff' },
     { title: 'waterTemp', color: '#0004FF' },
   ],
-  selected: [],
+  selected: [] as MetricsSelection[],
 }
 
 const slice = createSlice({

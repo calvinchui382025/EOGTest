@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-//--------------------------------------------------------------------
+//-------------------------------------------------------------------- my imports
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../Features/MetricsGraph/reducer';
 import { Provider, createClient, useQuery } from 'urql';
@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import moment from 'moment';
 import { IState } from '../store';
-//--------------------------------------------------------------------
+//-------------------------------------------------------------------- custom styles
 const useStyles = makeStyles({
   main: {
     // margin: 25
@@ -19,26 +19,27 @@ const useStyles = makeStyles({
     margin: 25
   },
 })
+//-------------------------------------------------------------------- custom types
+export type selection = { title: string, color:string }
 //-------------------------------------------------------------------- selections
 const getSelections = (state: IState) => {
   const { selections } = state.metric
   return selections
 }
+const getSelected = (state: IState) => {
+  const { selected } = state.metric
+  return selected
+}
 //--------------------------------------------------------------------
-export type selection = { title: string, color:string }
-//--------------------------------------------------------------------
-
 const Metrics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const selections = useSelector(getSelections);
-  let [selected, setSelected] = useState([] as {title:string, color:string}[])
+  const selected = useSelector(getSelected);
   let [graphData, setGraphData] = useState([])
   //--------------------------------------------------------------------
   const handleChangeSelected = (_event: React.ChangeEvent<{}>, values: selection[]) => {
-    // setSelected(selected = values.map((value) => value.title))
-    setSelected(selected = values)
-    dispatch(actions.updateSelected(selected))
+    dispatch(actions.updateSelected(values))
   }
   //--------------------------------------------------------------------
   const thirtyMinsAgo = Date.now() - 1800000;
