@@ -43,9 +43,9 @@ Design choices? Something super cool? A++
 //----------------------------------------------------------------------------------------------------------
 To-Do
 
-Display box of realtime data
-Display data when mouseover
-Display time stamps along X-axis
+        Display box of realtime data
+Done -- Display data when mouseover
+        Display time stamps along X-axis
 
-Figure out why graph is pulsing
-'Memoize' graph builder?
+        Figure out why graph is pulsing
+        'Memoize' graph builder?

@@ -141,7 +141,9 @@ const Metrics = () => {
           }
           <XAxis
             dataKey="name"
-            interval="preserveEnd"
+            // tickFormatter = {(tick) => moment(tick).format('HH:mm')}
+            // type='number'
+            // scale='time'
           />
           <YAxis />
         </LineChart>
