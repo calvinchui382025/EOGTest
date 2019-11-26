@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Provider, createClient, useQuery } from 'urql';
 //--------------------------------------------------------------------
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 //-------------------------------------------------------------------- selections
 const selections = [
   { title: 'injValveOpen', color: '#56ff00' },
@@ -16,7 +16,7 @@ const selections = [
   { title: 'waterTemp', color: '#0004FF' },
 ]
 
-const lineColor: { [key:string]: string} = {
+const lineColor: { [key: string]: string } = {
   'injValveOpen': '#56ff00',
   'oilTemp': '#ff8d00',
   'tubingPressure': '#00f9ff',
@@ -70,21 +70,16 @@ const Metrics = () => {
   //--------------------------------------------------------------------
   const { data, error } = result;
   //--------------------------------------------------------------------
-  //--------------------------------------------------------------------
   useEffect(() => {
     if (error) {
       dispatch(actions.metricsApiErrorAction({ error: error.message }));
       return;
     }
     if (!data) return;
-
-
-
-
+    //--------------------------------------------------------------------
     const { getMultipleMeasurements } = data
     if (selected !== []) {
       let newGraphData: any[] | never[] | { [x: string]: any; }[] = [];
-
       // console.log(getMultipleMeasurements);
       getMultipleMeasurements.forEach((measurement: any, i: number) => {  //looping through oilTemp/Pressure/etc.
         // console.log(measurement)
@@ -97,8 +92,6 @@ const Metrics = () => {
             newDataPoint['name'] = item['at']
             newDataPoint[measurement.metric] = item['value']
             newGraphData.push(newDataPoint as never);
-
-            // console.log(newDataPoint)
           } else {
             newGraphData[j][measurement.metric] = item['value']
           }
@@ -107,15 +100,8 @@ const Metrics = () => {
       // console.log(newGraphData)
       setGraphData(newGraphData as any)
     }
-
-
-
-
-
-
+    //--------------------------------------------------------------------
   }, [dispatch, data, error])
-  //--------------------------------------------------------------------
-
   //--------------------------------------------------------------------
   return (
     <div
@@ -142,14 +128,21 @@ const Metrics = () => {
         }}
       />
       {selected.length > 0 ?
-        <LineChart width={1000} height={600} data={graphData}>
+        <LineChart
+          width={1000}
+          height={600}
+          data={graphData}
+        >
+          <Tooltip />
           {
             selected.map((item: string) => (
               <Line type="monotone" dataKey={item} stroke={lineColor[item]} />
             ))
           }
-          {/* <CartesianGrid stroke="#ccc" /> */}
-          <XAxis dataKey="name" />
+          <XAxis
+            dataKey="name"
+            interval="preserveEnd"
+          />
           <YAxis />
         </LineChart>
         : null}
