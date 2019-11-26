@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 //--------------------------------------------------------------------
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../Features/MetricsGraph/reducer';
 import { Provider, createClient, useQuery } from 'urql';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import moment from 'moment';
+import { IState } from '../store';
 //--------------------------------------------------------------------
 const useStyles = makeStyles({
   main: {
@@ -19,14 +20,11 @@ const useStyles = makeStyles({
   },
 })
 //-------------------------------------------------------------------- selections
-const selections = [
-  { title: 'injValveOpen', color: '#56ff00' },
-  { title: 'oilTemp', color: '#ff8d00' },
-  { title: 'tubingPressure', color: '#00f9ff' },
-  { title: 'flareTemp', color: '#E14343' },
-  { title: 'casingPressure', color: '#fd00ff' },
-  { title: 'waterTemp', color: '#0004FF' },
-]
+const getSelections = (state: IState) => {
+  const { selections } = state.metric
+  return selections
+}
+
 const lineColor: { [key: string]: string } = {
   'injValveOpen': '#56ff00',
   'oilTemp': '#ff8d00',
@@ -38,9 +36,11 @@ const lineColor: { [key: string]: string } = {
 //--------------------------------------------------------------------
 export type selection = { title: string }
 //--------------------------------------------------------------------
+
 const Metrics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const selections = useSelector(getSelections);
   let [selected, setSelected] = useState([] as string[])
   let [graphData, setGraphData] = useState([])
   //--------------------------------------------------------------------
@@ -140,7 +140,7 @@ const Metrics = () => {
           }
           <XAxis
             dataKey="name"
-            domain = {['auto', 'auto']}
+            domain={['auto', 'auto']}
             interval={240}
             tickFormatter={(tick) => moment(tick).format('HH:mm')}
             type='number'
