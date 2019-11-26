@@ -7,13 +7,15 @@ import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import moment from 'moment';
 //--------------------------------------------------------------------
 const useStyles = makeStyles({
   main: {
-    margin: 25
+    // margin: 25
   },
   input: {
-    width: 800
+    width: 800,
+    margin: 25
   },
 })
 //-------------------------------------------------------------------- selections
@@ -100,7 +102,6 @@ const Metrics = () => {
           }
         })
       })
-      // console.log(newGraphData)
       setGraphData(newGraphData as any)
     }
     //--------------------------------------------------------------------
@@ -139,9 +140,11 @@ const Metrics = () => {
           }
           <XAxis
             dataKey="name"
-          // tickFormatter = {(tick) => moment(tick).format('HH:mm')}
-          // type='number'
-          // scale='time'
+            domain = {['auto', 'auto']}
+            interval={240}
+            tickFormatter={(tick) => moment(tick).format('HH:mm')}
+            type='number'
+            scale='time'
           />
           <YAxis />
         </LineChart>
