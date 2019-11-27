@@ -32,6 +32,10 @@ const slice = createSlice({
     setGraphData: (state, action) => {
       state.graphData = action.payload
     },
+    addGraphData: (state, action) => {
+      // console.log(action.payload)
+      // state.graphData.push(action.payload as never)
+    },
     metricsApiErrorAction: (state, action: PayloadAction<ApiErrorAction>) => state,
   }
 })
