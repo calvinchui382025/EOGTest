@@ -27,8 +27,8 @@ const Metrics = () => {
   const selected = useSelector(getSelected);
   const selections = useSelector(getSelection)
   const graphData = useSelector(getGraphData);
-  //--------------------------------------------------------------------
-  const getLastThirty =
+  //-------------------------------------------------------------------- queries
+  const getLastThirty =                                                //query string for last 30 minutes of data
     `query getLastThirty{
       getMultipleMeasurements(input: 
         [
@@ -50,7 +50,7 @@ const Metrics = () => {
         }
       }
     }`
-  const subscriptionQuery =
+  const subscriptionQuery =                                            //query string for metrics subscription
     `subscription selectedSubscription{
       newMeasurement{
         metric
@@ -60,7 +60,7 @@ const Metrics = () => {
       }
     }`
   //-------------------------------------------------------------------
-  const [lastThirtyResult] = useQuery({
+  const [lastThirtyResult] = useQuery({ 
     query: getLastThirty
   })
   const { data, error } = lastThirtyResult;
@@ -72,7 +72,6 @@ const Metrics = () => {
     }
     if (!data) return;
     const { getMultipleMeasurements } = data
-    if (selected.length !== 0) {
       let newGraphData: never[] | never[] | { [x: string]: any; }[] = [];
       getMultipleMeasurements.forEach((measurement: any, i: number) => {
         measurement.measurements.forEach((item: { [x: string]: any; }, j: number) => {
@@ -86,10 +85,8 @@ const Metrics = () => {
           }
         })
       })
-      // console.log(newGraphData)
       dispatch(actions.setGraphData(newGraphData as any))
-    }
-  }, [dispatch, data, selected.length, error])
+  }, [dispatch, data, error])
   //--------------------------------------------------------------------
   const [subscriptionResult] = useSubscription({
     query: subscriptionQuery,
@@ -105,7 +102,7 @@ const Metrics = () => {
     if (!subscriptionData) return;
     const { newMeasurement } = subscriptionData
     if (graphData.length !== 0) {
-      let newGraphData = graphData.map(item => Object.assign({}, item))
+      let newGraphData = graphData.map(item => Object.assign({}, item)) //graphData Object not extensible, had to create shallow copy
       if (newGraphData[newGraphData.length - 1]['name'] === newMeasurement['at']) {
         newGraphData[newGraphData.length - 1][newMeasurement['metric']] = newMeasurement['value'] as never
       } else {
@@ -118,7 +115,7 @@ const Metrics = () => {
       }
       dispatch(actions.setGraphData(newGraphData))
     }
-  }, [subscriptionData, graphData !== []])
+  }, [dispatch, subscriptionData, subscriptionError])
   //--------------------------------------------------------------------
   return (
     <div>
