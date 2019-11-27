@@ -21,6 +21,5 @@ To-Do
 Done -- Display data when mouseover
 Semi -- Display time stamps along X-axis
 
-        GraphQL Subscriptions - https://www.howtographql.com/graphql-js/7-subscriptions/ - https://formidable.com/open-source/urql/docs/basics/
-        Figure out why graph is pulsing
-        'Memoize' graph builder?
+Done -- GraphQL Subscriptions - https://www.howtographql.com/graphql-js/7-subscriptions/ - https://formidable.com/open-source/urql/docs/basics/
+Done -- Figure out why graph is pulsing

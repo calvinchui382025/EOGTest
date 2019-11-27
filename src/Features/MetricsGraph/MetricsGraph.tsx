@@ -13,13 +13,15 @@ const getGraphData = (state: IState) => {
   return graphData;
 }
 //--------------------------------------------------------------------
+
+//--------------------------------------------------------------------
 const MetricsGraph = () => {
   const selected = useSelector(getSelected);
   const graphData = useSelector(getGraphData);
   //--------------------------------------------------------------------
   return (
     <LineChart
-      width={800}
+      width={850}
       height={400}
       data={graphData}
     >
