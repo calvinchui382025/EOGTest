@@ -7,16 +7,17 @@ export type ApiErrorAction = {
 export type MetricsSelection = {
   title: string,
   color: string,
+  unit: string
 }
 //--------------------------------------------------------------------
 const initialState = {
   selections: [
-    { title: 'injValveOpen', color: '#56ff00' },
-    { title: 'oilTemp', color: '#ff8d00' },
-    { title: 'tubingPressure', color: '#00f9ff' },
-    { title: 'flareTemp', color: '#E14343' },
-    { title: 'casingPressure', color: '#fd00ff' },
-    { title: 'waterTemp', color: '#0004FF' },
+    { title: 'injValveOpen', color: '#56ff00', unit: "%" },
+    { title: 'oilTemp', color: '#ff8d00', unit: "F" },
+    { title: 'tubingPressure', color: '#00f9ff', unit: "PSI" },
+    { title: 'flareTemp', color: '#E14343', unit: "F" },
+    { title: 'casingPressure', color: '#fd00ff', unit: "PSI" },
+    { title: 'waterTemp', color: '#0004FF', unit: "F" },
   ],
   selected: [] as MetricsSelection[],
   graphData: [],
@@ -31,10 +32,6 @@ const slice = createSlice({
     },
     setGraphData: (state, action) => {
       state.graphData = action.payload
-    },
-    addGraphData: (state, action) => {
-      // console.log(action.payload)
-      // state.graphData.push(action.payload as never)
     },
     metricsApiErrorAction: (state, action: PayloadAction<ApiErrorAction>) => state,
   }

@@ -2,18 +2,18 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import { IState, selection } from '../../store';
+import { IState } from '../../store';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   component: {
-    width: 450,
+    width: 550,
     marginTop: 15
   },
   card: {
-    width: 200,
+    width: 250,
     height: 115,
     margin: 10
   },
@@ -62,7 +62,7 @@ const MetricsCards = () => {
                 <Typography
                   className={classes.value}
                 >
-                  {graphData[graphData.length - 2][item.title]}
+                  { `${graphData[graphData.length - 2][item.title]}${item.unit}` }
                 </Typography>
               </CardContent>
             </Card>

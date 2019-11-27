@@ -7,7 +7,7 @@ import reducers from './reducers';
 
 const reducer = combineReducers(reducers);
 export type IState = ReturnType<typeof reducer>;
-export type selection = { title: string, color: string };
+export type selection = { title: string, color: string, unit: string };
 
 export default () => {
   const composeEnhancers = composeWithDevTools({});

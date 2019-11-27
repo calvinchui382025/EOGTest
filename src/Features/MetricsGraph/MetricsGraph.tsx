@@ -13,7 +13,9 @@ const getGraphData = (state: IState) => {
   return graphData;
 }
 //--------------------------------------------------------------------
-
+const ID = () => {
+  return '_' + Math.random().toString(36).substr(2, 9)
+}
 //--------------------------------------------------------------------
 const MetricsGraph = () => {
   const selected = useSelector(getSelected);
@@ -33,6 +35,7 @@ const MetricsGraph = () => {
             key={i}
             dataKey={item.title}
             stroke={item.color}
+            yAxisId={item.unit}
           />
         ))
       }
@@ -44,7 +47,18 @@ const MetricsGraph = () => {
         type='number'
         scale='time'
       />
-      <YAxis />
+      {
+        selected.map((item: selection) => (
+          <YAxis
+            yAxisId={item.unit}
+            key={ID()}
+            type="number"
+            unit={item.unit}
+            scale='auto'
+            domain={[0, 'auto']}
+          />
+        ))
+      }
     </LineChart>
   )
 }
