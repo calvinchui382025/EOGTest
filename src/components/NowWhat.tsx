@@ -7,6 +7,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { IState } from '../store';
 import MetricsGraph from './../Features/MetricsGraph/MetricsGraph';
 import MetricsInput from './../Features/MetricsGraph/MetricsInput';
+import MetricsCards from './../Features/MetricsGraph/MetricsCards';
 //-------------------------------------------------------------------- 
 const getSelected = (state: IState) => {
   const { selected } = state.metric
@@ -60,7 +61,7 @@ const Metrics = () => {
       }
     }`
   //-------------------------------------------------------------------
-  const [lastThirtyResult] = useQuery({ 
+  const [lastThirtyResult] = useQuery({
     query: getLastThirty
   })
   const { data, error } = lastThirtyResult;
@@ -72,20 +73,20 @@ const Metrics = () => {
     }
     if (!data) return;
     const { getMultipleMeasurements } = data
-      let newGraphData: never[] | never[] | { [x: string]: any; }[] = [];
-      getMultipleMeasurements.forEach((measurement: any, i: number) => {
-        measurement.measurements.forEach((item: { [x: string]: any; }, j: number) => {
-          if (i === 0) {
-            let newDataPoint = {} as any;
-            newDataPoint['name'] = item['at']
-            newDataPoint[measurement.metric] = item['value']
-            newGraphData.push(newDataPoint as never);
-          } else {
-            newGraphData[j][measurement.metric] = item['value']
-          }
-        })
+    let newGraphData: never[] | never[] | { [x: string]: any; }[] = [];
+    getMultipleMeasurements.forEach((measurement: any, i: number) => {
+      measurement.measurements.forEach((item: { [x: string]: any; }, j: number) => {
+        if (i === 0) {
+          let newDataPoint = {} as any;
+          newDataPoint['name'] = item['at']
+          newDataPoint[measurement.metric] = item['value']
+          newGraphData.push(newDataPoint as never);
+        } else {
+          newGraphData[j][measurement.metric] = item['value']
+        }
       })
-      dispatch(actions.setGraphData(newGraphData as any))
+    })
+    dispatch(actions.setGraphData(newGraphData as any))
   }, [dispatch, data, error])
   //--------------------------------------------------------------------
   const [subscriptionResult] = useSubscription({
@@ -100,6 +101,7 @@ const Metrics = () => {
       return;
     }
     if (!subscriptionData) return;
+
     const { newMeasurement } = subscriptionData
     if (graphData.length !== 0) {
       let newGraphData = graphData.map(item => Object.assign({}, item)) //graphData Object not extensible, had to create shallow copy
@@ -121,6 +123,7 @@ const Metrics = () => {
     <div>
       <MetricsInput />
       {selected.length > 0 ? <MetricsGraph /> : null}
+      {selected.length > 0 ? <MetricsCards /> : null}
     </div>
   )
 }

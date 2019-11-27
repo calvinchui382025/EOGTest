@@ -27,8 +27,13 @@ const MetricsGraph = () => {
     >
       <Tooltip />
       {
-        selected.map((item: selection) => (
-          <Line type="monotone" dataKey={item.title} stroke={item.color} />
+        selected.map((item: selection, i: number) => (
+          <Line
+            type="monotone"
+            key={i}
+            dataKey={item.title}
+            stroke={item.color}
+          />
         ))
       }
       <XAxis
@@ -43,4 +48,4 @@ const MetricsGraph = () => {
     </LineChart>
   )
 }
-export default MetricsGraph
+export default MetricsGraph;
