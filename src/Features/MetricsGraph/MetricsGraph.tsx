@@ -39,7 +39,7 @@ const MetricsGraph = () => {
       <XAxis
         dataKey="name"
         domain={['auto', 'auto']}
-        interval={220}
+        interval={230}
         tickFormatter={(tick) => moment(tick).format('HH:mm')}
         type='number'
         scale='time'

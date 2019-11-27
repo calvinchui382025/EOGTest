@@ -8,16 +8,21 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
+  component: {
+    width: 450,
+    marginTop: 15
+  },
   card: {
     width: 200,
-    height: 115
+    height: 115,
+    margin: 10
   },
   title: {
     fontSize: 14
   },
   value: {
     fontSize: 40
-  }
+  },
 })
 
 const getSelected = (state: IState) => {
@@ -34,9 +39,13 @@ const MetricsCards = () => {
   const selected = useSelector(getSelected);
   const graphData = useSelector(getGraphData);
   return (
-    <div>
+    <div
+      className={classes.component}
+    >
       <Box
         display="flex"
+        flexDirection="row"
+        flexWrap="wrap"
       >
         {
           selected.map((item, i) => (

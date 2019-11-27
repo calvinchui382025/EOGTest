@@ -17,7 +17,7 @@ Spending the time to subscribe to updates, instead of polling is 100
 //----------------------------------------------------------------------------------------------------------
 To-Do
         Update tooltip to render time correctly - http://recharts.org/en-US/examples/CustomContentOfTooltip
-        Display box of realtime data
+Done -- Display box of realtime data
 Done -- Display data when mouseover
 Semi -- Display time stamps along X-axis
 

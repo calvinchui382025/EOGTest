@@ -5,6 +5,7 @@ import { actions } from '../Features/MetricsGraph/reducer';
 import { Provider, createClient, useQuery, defaultExchanges, subscriptionExchange, useSubscription } from 'urql';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { IState } from '../store';
+import Box from '@material-ui/core/Box';
 import MetricsGraph from './../Features/MetricsGraph/MetricsGraph';
 import MetricsInput from './../Features/MetricsGraph/MetricsInput';
 import MetricsCards from './../Features/MetricsGraph/MetricsCards';
@@ -121,9 +122,19 @@ const Metrics = () => {
   //--------------------------------------------------------------------
   return (
     <div>
-      <MetricsInput />
-      {selected.length > 0 ? <MetricsGraph /> : null}
-      {selected.length > 0 ? <MetricsCards /> : null}
+      <Box
+        display="flex"
+        flexDirection="row"
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+        >
+          <MetricsInput />
+          {selected.length > 0 ? <MetricsGraph /> : null}
+        </Box>
+        {selected.length > 0 ? <MetricsCards /> : null}
+      </Box>
     </div>
   )
 }
