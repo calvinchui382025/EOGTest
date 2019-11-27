@@ -10,7 +10,7 @@ import { IState, selection } from '../../store';
 const useStyles = makeStyles({
   input: {
     margin: 25,
-    width: 850,
+    width: 1000,
   },
   inputRoot: {
     flexWrap: "nowrap"

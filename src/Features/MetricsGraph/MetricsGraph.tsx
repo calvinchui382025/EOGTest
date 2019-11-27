@@ -23,11 +23,13 @@ const MetricsGraph = () => {
   //--------------------------------------------------------------------
   return (
     <LineChart
-      width={850}
+      width={1000}
       height={400}
       data={graphData}
     >
-      <Tooltip />
+      <Tooltip 
+        labelFormatter={(value) => moment(value).format('MM-DD-YYYY hh:mm:ss')}
+      />
       {
         selected.map((item: selection, i: number) => (
           <Line
@@ -43,13 +45,14 @@ const MetricsGraph = () => {
         dataKey="name"
         domain={['auto', 'auto']}
         interval={230}
-        tickFormatter={(tick) => moment(tick).format('HH:mm')}
+        tickFormatter={(tick) => moment(tick).format('hh:mm')}
         type='number'
         scale='time'
       />
       {
         selected.map((item: selection) => (
           <YAxis
+            width={70}
             yAxisId={item.unit}
             key={ID()}
             type="number"

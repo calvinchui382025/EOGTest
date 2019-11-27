@@ -9,13 +9,13 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   component: {
-    width: 550,
+    width: 520,
     marginTop: 15
   },
   card: {
     width: 250,
     height: 115,
-    margin: 10
+    margin: 5
   },
   title: {
     fontSize: 14
